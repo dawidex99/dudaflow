@@ -18,9 +18,12 @@ app.post('/submit', async (req, res) => {
 
   const { data, error } = await supabase
     .from('messages')
-    .insert([{ phone, email, message }]);
+    .insert([{ phone, email, message }])
+    .select(); // <-- to powoduje, że Supabase zwraca nowo dodany rekord
 
+  console.log('Insert result:', data);
   if (error) {
+    console.error('Insert error:', error.message);
     return res.status(500).json({ error: error.message });
   }
 
@@ -34,6 +37,7 @@ app.get('/messages', async (req, res) => {
     .order('created_at', { ascending: false });
 
   if (error) {
+    console.error('Select error:', error.message);
     return res.status(500).json({ error: error.message });
   }
 
