@@ -6,7 +6,7 @@ const app = express();
 app.use(bodyParser.json());
 
 const supabaseUrl = 'https://nevvvpxgahydpxlafmnj.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldnZ2dnB4Z2FoeWRweGxhZm1uaiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzUzOTg0MTYxLCJleHAiOjIwNjk1NjAxNjF9.XufrBUVrpC-eVg6cMmolbeNj19UGOFnRcMoQVCwlVDE';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ldnZ2cHhnYWh5ZHB4bGFmbW5qIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5ODQxNjEsImV4cCI6MjA2OTU2MDE2MX0.XufrBUVrpC-eVg6cMmolbeNj19UGOFnRcMoQVCwlVDE';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.post('/submit', async (req, res) => {
