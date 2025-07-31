@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <title>Prosty Chat</title>
+</head>
+<body>
+  <h1>Wiadomości</h1>
+  <ul id="messages"></ul>
+
+  <h2>Dodaj wiadomość</h2>
+  <input type="text" id="messageInput" placeholder="Wpisz wiadomość" />
+  <button id="sendBtn">Wyślij</button>
+
+  <script>
+    async function fetchMessages() {
+      const res = await fetch('http://localhost:3000/messages');
+      const json = await res.json();
+      if (json.success) {
+        const ul = document.getElementById('messages');
+        ul.innerHTML = '';
+        json.data.forEach(msg => {
+          const li = document.createElement('li');
+          li.textContent = msg.message + ' (' + new Date(msg.created_at).toLocaleString() + ')';
+          ul.appendChild(li);
+        });
+      }
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      if (!message) return alert('Wpisz wiadomość!');
+      
+      const res = await fetch('http://localhost:3000/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message })
+      });
+      const json = await res.json();
+      if (json.success) {
+        input.value = '';
+        fetchMessages();
+      } else {
+        alert('Błąd przy wysyłaniu wiadomości');
+      }
+    }
+
+    document.getElementById('sendBtn').addEventListener('click', sendMessage);
+
+    // Załaduj wiadomości od razu po otwarciu strony
+    fetchMessages();
+  </script>
+</body>
+</html>
+
