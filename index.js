@@ -10,11 +10,15 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 app.post('/submit', async (req, res) => {
-  const { message } = req.body;
+  const {
+    'your-name': phone,
+    'your-email': email,
+    'your-message': message
+  } = req.body;
 
   const { data, error } = await supabase
     .from('messages')
-    .insert([{ message }]);
+    .insert([{ phone, email, message }]);
 
   if (error) {
     return res.status(500).json({ error: error.message });
@@ -40,4 +44,3 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server działa na porcie ${PORT}`);
 });
-
