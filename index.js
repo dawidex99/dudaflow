@@ -1,8 +1,17 @@
 const express = require('express');
+const cors = require('cors'); // dodane CORS
 const bodyParser = require('body-parser');
 const { createClient } = require('@supabase/supabase-js');
 
 const app = express();
+
+// Konfiguracja CORS – tylko dla domeny duda-design.pl
+app.use(cors({
+  origin: 'https://duda-design.pl',
+  methods: ['POST', 'GET'],
+  credentials: true
+}));
+
 app.use(bodyParser.json());
 
 const supabaseUrl = 'https://nevvvpxgahydpxlafmnj.supabase.co';
@@ -19,7 +28,7 @@ app.post('/submit', async (req, res) => {
   const { data, error } = await supabase
     .from('messages')
     .insert([{ phone, email, message }])
-    .select(); // <-- to powoduje, że Supabase zwraca nowo dodany rekord
+    .select();
 
   console.log('Insert result:', data);
   if (error) {
